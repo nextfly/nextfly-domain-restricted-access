@@ -1,0 +1,87 @@
+/**
+ * Admin styles for Nextfly Domain Restricted Access plugin.
+ *
+ * @package Nextfly_Domain_Restricted_Access
+ */
+
+/* Metabox Styles */
+.nfdra-metabox {
+	padding: 10px 0;
+}
+
+.nfdra-metabox label {
+	display: block;
+	margin-bottom: 8px;
+}
+
+.nfdra-metabox textarea {
+	font-family: monospace;
+	font-size: 13px;
+}
+
+.nfdra-metabox .description {
+	margin-top: 8px;
+	font-style: italic;
+	color: #646970;
+}
+
+/* Settings Page Styles */
+.nfdra-settings-info {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left: 4px solid #2271b1;
+	padding: 20px;
+	margin-top: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.nfdra-settings-info h2 {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.nfdra-settings-info h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.nfdra-settings-info ol,
+.nfdra-settings-info ul {
+	margin-left: 20px;
+}
+
+.nfdra-settings-info li {
+	margin-bottom: 8px;
+	line-height: 1.6;
+}
+
+.nfdra-settings-info code {
+	background: #f0f0f1;
+	padding: 2px 6px;
+	border-radius: 3px;
+	font-family: Consolas, Monaco, monospace;
+}
+
+/* Settings Form Styles */
+.form-table th[scope="row"] {
+	padding: 20px 10px 20px 0;
+}
+
+.form-table td {
+	padding: 15px 10px;
+}
+
+.form-table input[type="text"].regular-text {
+	width: 100%;
+	max-width: 500px;
+}
+
+.form-table textarea.large-text {
+	width: 100%;
+	max-width: 600px;
+}
+
+.form-table p.description {
+	margin-top: 8px;
+	margin-bottom: 0;
+}

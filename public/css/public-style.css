@@ -1,0 +1,216 @@
+/**
+ * Public styles for Nextfly Domain Restricted Access plugin.
+ *
+ * @package Nextfly_Domain_Restricted_Access
+ */
+
+/* Email Form Wrapper */
+.nfdra-email-form-wrapper {
+	max-width: 600px;
+	margin: 40px auto;
+	padding: 0 20px;
+}
+
+.nfdra-email-form-container {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 40px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title */
+.nfdra-form-title {
+	margin: 0 0 15px;
+	font-size: 24px;
+	font-weight: 600;
+	color: #333;
+	text-align: center;
+}
+
+/* Form Description */
+.nfdra-form-description {
+	margin: 0 0 30px;
+	font-size: 15px;
+	color: #666;
+	text-align: center;
+	line-height: 1.6;
+}
+
+/* Form Group */
+.nfdra-form-group {
+	margin-bottom: 20px;
+}
+
+.nfdra-form-label {
+	display: block;
+	margin-bottom: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #333;
+}
+
+.nfdra-form-input {
+	width: 100%;
+	padding: 12px 15px;
+	font-size: 15px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	box-sizing: border-box;
+}
+
+.nfdra-form-input:focus {
+	outline: none;
+	border-color: #0073aa;
+	box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+/* Form Actions */
+.nfdra-form-actions {
+	margin-top: 25px;
+}
+
+.nfdra-form-submit {
+	width: 100%;
+	padding: 14px 20px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+	background: #0073aa;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.nfdra-form-submit:hover {
+	background: #005a87;
+}
+
+.nfdra-form-submit:active {
+	transform: scale(0.98);
+}
+
+.nfdra-form-submit:disabled {
+	background: #ccc;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+/* Form Messages */
+.nfdra-form-message {
+	margin-top: 20px;
+	padding: 12px 15px;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.nfdra-form-message.success {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	color: #155724;
+}
+
+.nfdra-form-message.error {
+	background: #f8d7da;
+	border: 1px solid #f5c6cb;
+	color: #721c24;
+}
+
+/* Loading State */
+.nfdra-form-loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+	padding: 15px;
+	background: #f0f0f1;
+	border-radius: 4px;
+}
+
+.nfdra-spinner {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 3px solid rgba(0, 0, 0, 0.1);
+	border-top-color: #0073aa;
+	border-radius: 50%;
+	animation: nfdra-spin 0.8s linear infinite;
+}
+
+@keyframes nfdra-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.nfdra-loading-text {
+	margin-left: 10px;
+	font-size: 14px;
+	color: #555;
+}
+
+/* Global Messages (for token validation) */
+.nfdra-global-message {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 15px 25px;
+	border-radius: 4px;
+	font-size: 15px;
+	font-weight: 500;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 9999;
+	display: none;
+	max-width: 90%;
+	text-align: center;
+}
+
+.nfdra-global-message.success {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	color: #155724;
+}
+
+.nfdra-global-message.error {
+	background: #f8d7da;
+	border: 1px solid #f5c6cb;
+	color: #721c24;
+}
+
+.nfdra-global-message.validating {
+	background: #d1ecf1;
+	border: 1px solid #bee5eb;
+	color: #0c5460;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nfdra-global-message .nfdra-spinner {
+	margin-right: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.nfdra-email-form-container {
+		padding: 30px 20px;
+	}
+
+	.nfdra-form-title {
+		font-size: 20px;
+	}
+
+	.nfdra-form-description {
+		font-size: 14px;
+	}
+
+	.nfdra-global-message {
+		top: 10px;
+		font-size: 14px;
+		padding: 12px 20px;
+	}
+}
