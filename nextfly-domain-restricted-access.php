@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Nextfly Domain Restricted Access
  * Description: A WordPress plugin that requires email validation for page/post access.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: NEXTFLY® Web Design
  * Author URI: https://nextflywebdesign.com/
  * Text Domain: nextfly-domain-restricted-access
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants.
-define( 'NFDRA_VERSION', '1.0.0' );
+define( 'NFDRA_VERSION', '1.0.1' );
 define( 'NFDRA_PLUGIN_FILE', __FILE__ );
 define( 'NFDRA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'NFDRA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

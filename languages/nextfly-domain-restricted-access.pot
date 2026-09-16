@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Nextfly Domain Restricted Access plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Nextfly Domain Restricted Access 1.0.0\n"
+"Project-Id-Version: Nextfly Domain Restricted Access 1.0.1\n"
 "Report-Msgid-Bugs-To: https://nextflywebdesign.com/\n"
 "POT-Creation-Date: 2026-02-12 15:00:00+00:00\n"
 "MIME-Version: 1.0\n"

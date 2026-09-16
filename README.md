@@ -3,9 +3,9 @@
 **Contributors:** nextfly  
 **Tags:** magic link, access control, email verification, restricted access, nextfly
 **Requires at least:** 5.8  
-**Tested up to:** 7.0
+**Tested up to:** 7.1
 **Requires PHP:** 7.4  
-**Stable tag:** 1.0.0  
+**Stable tag:** 1.0.1  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,11 @@ The plugin includes several hooks to allow developers to extend its functionalit
     *   **Returns:** (array) Modified array of post types.
 
 ## Changelog
+
+**1.0.1**
+*   Fix: The email form page now redirects and returns 404 before any output, avoiding "headers already sent" errors on classic themes.
+*   Fix: The email form is now detected on Elementor pages, so its scripts load and redirects work even without a Redirect Page set.
+*   Tested up to WordPress 7.1.
 
 **1.0.0**
 *   Initial release.
