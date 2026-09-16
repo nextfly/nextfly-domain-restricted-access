@@ -31,6 +31,9 @@ class Nextfly_Domain_Restricted_Access_Frontend {
 		// Check access on template redirect.
 		add_action( 'template_redirect', array( $this, 'handle_access_control' ) );
 
+		// Handle email form page redirects before any output is sent.
+		add_action( 'template_redirect', array( $this, 'handle_email_form_page' ) );
+
 		// Register AJAX handler for email submission.
 		add_action( 'wp_ajax_nfdra_submit_email', array( $this, 'ajax_submit_email' ) );
 		add_action( 'wp_ajax_nopriv_nfdra_submit_email', array( $this, 'ajax_submit_email' ) );
@@ -82,6 +85,87 @@ class Nextfly_Domain_Restricted_Access_Frontend {
 
 		// No valid access, redirect to email form page.
 		$this->redirect_to_email_form( $post_id );
+	}
+
+	/**
+	 * Handle redirects and status codes for the email form page.
+	 *
+	 * Runs on template_redirect so headers can still be sent. Doing this inside
+	 * the shortcode fails on themes that print output before the content.
+	 *
+	 * @since 1.0.1
+	 */
+	public function handle_email_form_page() {
+		if ( ! $this->is_email_form_page() ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$return_post_id = isset( $_GET['return_post_id'] ) ? absint( $_GET['return_post_id'] ) : 0;
+
+		// No return_post_id: the shortcode shows an error message, send a 404 status with it.
+		if ( ! $return_post_id ) {
+			status_header( 404 );
+			nocache_headers();
+			return;
+		}
+
+		// Nonexistent post: let the shortcode show its message.
+		if ( ! get_post( $return_post_id ) ) {
+			return;
+		}
+
+		// Post is not restricted, or user already has access: go straight to the post.
+		$authorized_domains = Nextfly_Domain_Restricted_Access_Database::get_authorized_domains( $return_post_id );
+		if ( empty( $authorized_domains ) || $this->has_valid_cookie( $return_post_id ) ) {
+			wp_safe_redirect( get_permalink( $return_post_id ) );
+			exit;
+		}
+	}
+
+	/**
+	 * Check if the current request is the email form page.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @return bool True if the current page is the configured redirect page or contains the shortcode.
+	 */
+	private function is_email_form_page() {
+		if ( ! is_singular() ) {
+			return false;
+		}
+
+		$redirect_page_id = absint( get_option( 'nfdra_redirect_page', 0 ) );
+		if ( $redirect_page_id > 0 && (int) get_queried_object_id() === $redirect_page_id ) {
+			return true;
+		}
+
+		$post = get_queried_object();
+		return ( $post instanceof WP_Post ) && $this->has_form_shortcode( $post );
+	}
+
+	/**
+	 * Check if a post contains the email form shortcode.
+	 *
+	 * Also checks Elementor data, because Elementor pages do not always keep
+	 * the shortcode in post_content (for example, imported pages).
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return bool True if the shortcode is found.
+	 */
+	private function has_form_shortcode( $post ) {
+		if ( has_shortcode( $post->post_content, 'nextfly_domain_restricted_access' ) ) {
+			return true;
+		}
+
+		if ( 'builder' !== get_post_meta( $post->ID, '_elementor_edit_mode', true ) ) {
+			return false;
+		}
+
+		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
+		return is_string( $elementor_data ) && has_shortcode( $elementor_data, 'nextfly_domain_restricted_access' );
 	}
 
 	/**
@@ -305,6 +389,11 @@ class Nextfly_Domain_Restricted_Access_Frontend {
 			exit;
 		}
 
+		// Load assets late if the page was not detected earlier (e.g. other page builders).
+		if ( ! wp_script_is( 'nfdra-public-scripts', 'enqueued' ) ) {
+			$this->enqueue_assets();
+		}
+
 		// All validation passed, render the form.
 		ob_start();
 		include NFDRA_PLUGIN_DIR . 'templates/public/email-form.php';
@@ -392,24 +481,19 @@ class Nextfly_Domain_Restricted_Access_Frontend {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts() {
-		if ( ! is_singular() ) {
+		if ( ! $this->is_email_form_page() ) {
 			return;
 		}
 
-		$redirect_page_id = absint( get_option( 'nfdra_redirect_page', 0 ) );
-		$current_post_id  = get_queried_object_id();
+		$this->enqueue_assets();
+	}
 
-		if ( $redirect_page_id > 0 ) {
-			if ( (int) $current_post_id !== (int) $redirect_page_id ) {
-				return;
-			}
-		} else {
-			global $post;
-			if ( ! ( $post instanceof WP_Post ) || ! has_shortcode( $post->post_content, 'nextfly_domain_restricted_access' ) ) {
-				return;
-			}
-		}
-
+	/**
+	 * Enqueue the email form styles and scripts.
+	 *
+	 * @since 1.0.1
+	 */
+	private function enqueue_assets() {
 		// Enqueue styles.
 		wp_enqueue_style(
 			'nfdra-public-styles',
